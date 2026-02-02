@@ -38,3 +38,17 @@ curl -X POST http://localhost:3001/leads \
     "company": "IIIT-B",
     "role": "Student"
   }'
+
+
+FUTURE: 1. feat: add BullMQ for async email sending
+2. feat: add follow-up scheduling
+3. chore: verify Resend domain and update sender
+4. chore: switch AI generation from mock to OpenAI
+
+
+Redis:
+docker run -d \
+  --name prosp-redis \
+  -p 6379:6379 \
+  redis:7
+
