@@ -58,3 +58,4 @@ npm run dev
 npx ts-node-dev src/workers/email.worker.ts
 after the curl command to create lead:
 curl -X POST http://localhost:3001/emails/send/<LEAD_ID>
+RUN  npx prisma studio to check the DB

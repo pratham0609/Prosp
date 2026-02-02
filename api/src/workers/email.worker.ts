@@ -7,7 +7,7 @@ import { sendEmail } from '../services/email.service'
 new Worker(
   'email-send',
   async (job) => {
-    const { leadId, draftId, type } = job.data
+    const { leadId, draftId, type, followUpDraftId } = job.data
 
     const lead = await prisma.lead.findUnique({ where: { id: leadId } })
     const draft = await prisma.emailDraft.findUnique({ where: { id: draftId } })
@@ -28,19 +28,18 @@ new Worker(
       }
     })
 
-    // 👉 Schedule follow-up after INITIAL email
-    if (type === 'INITIAL') {
+    // schedule follow-up with CORRECT draft
+    if (type === 'INITIAL' && followUpDraftId) {
       await emailQueue.add(
         'send-follow-up',
         {
           leadId,
-          draftId,
+          draftId: followUpDraftId,
           type: 'FOLLOW_UP'
         },
         {
           // delay: 2 * 24 * 60 * 60 * 1000 // 2 days
-          // delay: 60 * 60 * 1000 // 1 hr
-          delay: 60 * 1000 // 1 min
+          delay: 10 * 1000 // 10 seconds for testing
         }
       )
     }
@@ -49,3 +48,4 @@ new Worker(
   },
   { connection: redisConnection }
 )
+
