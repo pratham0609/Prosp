@@ -50,6 +50,7 @@ enum LeadStatus {
 
 enum EmailType {
   INITIAL
+  FOLLOW_UP
 }
 
 enum SendStatus {
