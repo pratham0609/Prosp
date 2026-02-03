@@ -89,3 +89,22 @@ npx create-next-app@latest ui --ts --app --no-tailwind
 cd ui
 npm run dev
 
+## Remaining:
+
+
+Step 1 — Add “Add Lead” UI 
+Unlocks real product flow
+Makes demo self-contained
+No dependencies
+
+Step 2 — Verify Resend domain + sender
+Makes emails feel real
+Improves demo credibility
+
+Step 3 — Switch AI mock → OpenAI
+Easy once credits exist
+
+Step 4 — Deploy
+
+Step 5 — Loom demo
+

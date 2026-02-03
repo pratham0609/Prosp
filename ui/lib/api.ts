@@ -16,3 +16,14 @@ export async function simulateReply(leadId: string) {
     method: 'POST'
   })
 }
+
+export async function createLead(data: any) {
+  const res = await fetch(`${API_BASE}/leads`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+
+  return res.json()
+}
+
