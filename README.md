@@ -80,3 +80,12 @@ docker run -d \
   postgres:15
 
 docker ps -a
+
+# I've started using the card for Resend and OpenAI and will only send test emails to my own inboxes during development.
+
+# UI
+
+npx create-next-app@latest ui --ts --app --no-tailwind
+cd ui
+npm run dev
+
