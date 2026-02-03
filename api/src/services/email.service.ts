@@ -8,7 +8,7 @@ export async function sendEmail(
   html: string
 ) {
   return resend.emails.send({
-    from: process.env.EMAIL_FROM!,
+    from: 'Prosp <hello@mail.prosp-demo.site>',
     to,
     subject,
     html
