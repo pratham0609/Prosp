@@ -44,10 +44,18 @@ new Worker(
         },
         {
           // delay: 2 * 24 * 60 * 60 * 1000 // 2 days
-          delay: 10 * 1000 // 10 seconds for testing
+          delay: 10_000  // 10 seconds for testing
         }
       )
     }
+
+    if (type === 'FOLLOW_UP' && lead.repliedAt) {
+      console.log(
+        `[worker] Skipping follow-up for lead ${lead.id} (already replied)`
+      )
+      return { skipped: true }
+    }
+
 
     return { success: true }
   },
