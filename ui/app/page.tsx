@@ -1,5 +1,6 @@
 'use client'
 
+import AddLeadForm from '../components/AddLeadForm'
 import { useEffect, useState } from 'react'
 import { fetchLeads } from '../lib/api'
 import LeadRow from '../components/LeadRow'
@@ -9,6 +10,7 @@ export default function Page() {
 
   const load = async () => {
     const data = await fetchLeads()
+    console.log('LEADS:', data)
     setLeads(data)
   }
 
@@ -23,6 +25,8 @@ export default function Page() {
       <p>
         Send AI-personalized outreach and automated follow-ups.
       </p>
+
+      <AddLeadForm onCreated={load} />
 
       <div style={{ marginTop: 24 }}>
         {leads.map((lead) => (

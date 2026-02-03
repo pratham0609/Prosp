@@ -18,7 +18,9 @@ export default async function (app: FastifyInstance) {
 
   app.get('/', async () => {
     return prisma.lead.findMany({
-      include: { drafts: true }
+      include: { drafts: true ,
+                sends: true  
+      }
     })
   })
   
