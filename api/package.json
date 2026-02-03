@@ -18,7 +18,7 @@
     "dotenv": "^16.4.0",
     "fastify": "^4.26.0",
     "ioredis": "^5.9.2",
-    "openai": "^4.26.0",
+    "openai": "^4.104.0",
     "resend": "^3.2.0"
   },
   "devDependencies": {
