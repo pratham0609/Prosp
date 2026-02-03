@@ -15,6 +15,7 @@ model Lead {
   company   String?
   role      String?
   status    LeadStatus @default(NEW)
+  repliedAt DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

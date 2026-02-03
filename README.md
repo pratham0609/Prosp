@@ -46,16 +46,37 @@ FUTURE: 1. feat: add BullMQ for async email sending
 4. chore: switch AI generation from mock to OpenAI
 
 
-Redis:
+## Redis:
 docker run -d \
   --name prosp-redis \
   -p 6379:6379 \
   redis:7
 
-TEST:
+## Postgres
+docker run -d \
+  --name prosp-postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=prosp \
+  -p 5432:5432 \
+  postgres:15
+
+
+## TEST:
 
 npm run dev
 npx ts-node-dev src/workers/email.worker.ts
 after the curl command to create lead:
 curl -X POST http://localhost:3001/emails/send/<LEAD_ID>
 RUN  npx prisma studio to check the DB
+
+
+## incase postgres throws error:
+docker rm -f prosp-postgres
+docker run -d \
+  --name prosp-postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=prosp \
+  -p 5432:5432 \
+  postgres:15
+
+docker ps -a

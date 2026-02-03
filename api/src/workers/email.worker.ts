@@ -16,6 +16,11 @@ new Worker(
       throw new Error('Lead or draft not found')
     }
 
+    //check if lead has replied for follow-up emails
+    if (type === 'FOLLOW_UP' && lead.repliedAt) {
+      return { skipped: true }
+    }
+
     await sendEmail(lead.email, draft.subject, draft.body)
 
     await prisma.emailSend.create({
