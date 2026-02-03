@@ -21,4 +21,14 @@ export default async function (app: FastifyInstance) {
       include: { drafts: true }
     })
   })
+  
+  app.post('/:id/reply', async (req) => {
+  const { id } = req.params as any
+  return prisma.lead.update({
+    where: { id },
+    data: {
+      repliedAt: new Date(),
+      status: 'EMAIL_SENT'}
+    })
+  })
 }
