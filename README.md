@@ -2,6 +2,9 @@
 
 ## OPENAI/RESEND API KEY - pnddle1@gmail.com
 ## All emails are sent to test inboxes owned by me
+
+# Backend hosted at: prosp-production.up.railway.app
+
 npm install
 npx prisma generate
 npx prisma migrate dev
