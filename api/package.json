@@ -5,11 +5,8 @@
   "description": "Outbound lead personalization and email sending backend",
   "main": "server.ts",
   "scripts": {
-    "dev": "ts-node-dev server.ts",
     "build": "prisma generate && tsc",
     "start": "node dist/server.js",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
     "worker": "node dist/workers/email.worker.js"
   },
   "dependencies": {

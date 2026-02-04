@@ -212,3 +212,8 @@ DATABASE_URL=postgresql://prosp_user:prosp_password@localhost:5432/prosp
 ### then run migration again
 cd api
 npx prisma migrate dev --name init
+
+
+updated the worker and start commands in package.json to:
+    // "worker": "npm run build && prisma migrate deploy && ts-node src/workers/email.worker.ts"
+    // "start": "npm run build && prisma migrate deploy && node dist/server.js",
