@@ -1,5 +1,9 @@
 import { FastifyInstance } from 'fastify'
-import { prisma } from '../db'
+// import { prisma } from '../db'
+import { getPrisma } from '../db'
+
+const prisma = getPrisma()
+
 
 export default async function leadRoutes(app: FastifyInstance) {
 

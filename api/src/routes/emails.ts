@@ -1,7 +1,11 @@
 import { FastifyInstance } from 'fastify'
-import { prisma } from '../db'
+// import { prisma } from '../db'
 import { emailQueue } from '../queue/email.queue'
 import { generateEmail } from '../services/ai.service'
+import { getPrisma } from '../db'
+
+const prisma = getPrisma()
+
 
 export default async function (app: FastifyInstance) {
 

@@ -1,10 +1,10 @@
+import dotenv from 'dotenv'
+dotenv.config()
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
-import dotenv from 'dotenv'
 import leadRoutes from './routes/leads'
 import emailRoutes from './routes/emails'
 
-dotenv.config()
 
 const app = Fastify({ logger: true })
 
@@ -16,8 +16,20 @@ app.register(cors, {
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 })
 
+app.get('/health', async (_req, reply) => {
+  reply.send({ ok: true })
+})
+
 app.register(leadRoutes, { prefix: '/leads' })
 app.register(emailRoutes, { prefix: '/emails' })
+
+app.setErrorHandler((error, _req, reply) => {
+  app.log.error(error)
+  reply.status(500).send({
+    error: 'Internal Server Error',
+    message: error.message
+  })
+})
 
 const start = async () => {
   try {
