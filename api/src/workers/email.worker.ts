@@ -1,7 +1,9 @@
 import { Worker } from 'bullmq'
 import { redisConnection } from '../queue/redis'
 import { EMAIL_QUEUE_NAME, emailQueue } from '../queue/email.queue'
-import { prisma } from '../db'
+// import { prisma } from '../db'
+import { getPrisma } from '../db'
+const prisma = getPrisma()
 import { sendEmail } from '../services/email.service'
 
 new Worker(
