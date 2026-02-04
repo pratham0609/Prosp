@@ -1,9 +1,9 @@
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
 import dotenv from 'dotenv'
-import { prisma } from './src/db'
-import leadRoutes from './src/routes/leads'
-import emailRoutes from './src/routes/emails'
+import { prisma } from './db'
+import leadRoutes from './routes/leads'
+import emailRoutes from './routes/emails'
 
 dotenv.config()
 
