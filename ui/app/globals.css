@@ -40,3 +40,15 @@ a {
     color-scheme: dark;
   }
 }
+
+:root {
+  --card-bg: #fafafa;
+  --card-border: #e5e5e5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --card-bg: #111;
+    --card-border: #222;
+  }
+}

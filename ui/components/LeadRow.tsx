@@ -20,18 +20,18 @@ export default function LeadRow({ lead, onAction }: any) {
   return (
     <div
       style={{
-        border: '1px solid #e5e5e5',
+        border: '1px solid var(--card-border)',
         borderRadius: 8,
         padding: 16,
         marginBottom: 16,
-        background: '#fafafa'
+        background: 'var(--card-bg)'
       }}
     >
       <div style={{ fontSize: 16, fontWeight: 600 }}>
         {lead.firstName} {lead.lastName}
       </div>
 
-      <div style={{ color: '#666', marginTop: 4 }}>
+      <div style={{ color: 'var(--text-secondary)', marginTop: 4 }}>
         {lead.company}
       </div>
 
