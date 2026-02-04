@@ -1,11 +1,19 @@
 import OpenAI from 'openai'
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-})
+function getClient() {
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error('OPENAI_API_KEY not configured')
+  }
+
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
+  })
+}
+
 
 export async function generateEmail(lead: any) {
   try {
+    const client = getClient()
     const response = await client.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
