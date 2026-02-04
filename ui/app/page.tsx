@@ -29,7 +29,7 @@ export default function Page() {
 
       <AddLeadForm onCreated={load} />
 
-      <div style={{ marginTop: 24 }}>
+      <div style={{ marginTop: 32 }}>
         {leads.map((lead) => (
           <LeadRow key={lead.id} lead={lead} onAction={load} />
         ))}

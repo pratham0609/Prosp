@@ -1,219 +1,139 @@
-# Prosp
+# Prosp – AI Outreach Demo (Mini-SaaS)
 
-## OPENAI/RESEND API KEY - pnddle1@gmail.com
-## All emails are sent to test inboxes owned by me
+A standalone mini-SaaS that helps Sales Development Reps (SDRs) send AI-personalized outreach emails and automatically handle follow-ups — without manual tracking.
 
-# Backend hosted at: prosp-production.up.railway.app
+This project demonstrates product thinking, reliable backend workflows, and real AI + email integration.
 
-npm install
-npx prisma generate
-npx prisma migrate dev
-npx prisma db push ## this is needed to push the db, else the sub tables errors
-npm run dev
-curl http://localhost:3001/leads
-curl -X POST http://localhost:3001/emails/generate/8ddef7bc-7033-4c89-aebf-10f89f52fd48
+---
 
-curl -X POST http://localhost:3001/emails/send/8ddef7bc-7033-4c89-aebf-10f89f52fd48
+## Live Demo
 
+- **Frontend (Vercel):**  
+  https://prosp-prod.vercel.app
 
-curl -X POST http://localhost:3001/leads \
-  -H "Content-Type: application/json" \
-  -d '{
-    "firstName": "Ruchi",
-    "lastName": "Test",
-    "email": "pnddle1@gmail.com",
-    "company": "IIIT-B",
-    "role": "Student"
-  }'
+- **API (Render):**  
+  https://prosp-api.onrender.com
 
-curl -X POST http://localhost:3001/leads \
-  -H "Content-Type: application/json" \
-  -d '{
-    "firstName": "Ruchi",
-    "lastName": "Test",
-    "email": "delivered@resend.dev",
-    "company": "IIIT-B",
-    "role": "Student"
-  }'
+---
 
+## Problem Statement
 
-## Redis:
-docker run -d \
-  --name prosp-redis \
-  -p 6379:6379 \
-  redis:7
+SDRs struggle to:
+- Write personalized outreach at scale
+- Remember to follow up days later
+- Avoid sending follow-ups after a lead replies
 
-## Postgres
-docker run -d \
-  --name prosp-postgres \
-  -e POSTGRES_PASSWORD=postgres \
-  -e POSTGRES_DB=prosp \
-  -p 5432:5432 \
-  postgres:15
+This app solves that by:
+- Using AI to generate human-like emails
+- Automating follow-ups with background jobs
+- Preventing race conditions when replies happen
 
+---
 
-## TEST:
+## Core Features
 
-npm run dev
-npx ts-node-dev src/workers/email.worker.ts
-after the curl command to create lead:
-curl -X POST http://localhost:3001/emails/send/<LEAD_ID>
-RUN  npx prisma studio to check the DB
+### Lead Management
+- Add leads via a simple UI
+- Track lead status (`NEW`, `EMAIL SENT`, `REPLIED`)
 
+### AI-Personalized Outreach
+- Server-side AI generates short, natural outreach emails
+- Designed to start conversations, not aggressively sell
+- Safe fallback template if AI fails
 
-## incase postgres throws error:
-docker rm -f prosp-postgres
-docker run -d \
-  --name prosp-postgres \
-  -e POSTGRES_PASSWORD=postgres \
-  -e POSTGRES_DB=prosp \
-  -p 5432:5432 \
-  postgres:15
+### Automated Follow-Ups
+- Initial email is sent immediately
+- Follow-up is scheduled asynchronously
+- Follow-up is skipped if the lead replies before it sends
 
-docker ps -a
+### Background Processing
+- Email sending and scheduling handled via Redis + BullMQ
+- Worker runs independently of the API
+- System survives restarts without losing jobs
 
-# I've started using the card for Resend and OpenAI and will only send test emails to my own inboxes during development.
+### Real Email Delivery
+- Emails are actually delivered using Resend
+- No mock services
 
-# UI
+---
 
-npx create-next-app@latest ui --ts --app --no-tailwind
-cd ui
-npm run dev
+## 🏗 Architecture Overview
 
-## Remaining:
+Frontend (Next.js / Vercel)
+          |
+          v
+API (Fastify / Render)
+          |
+    enqueue jobs
+          v
+Redis Queue (BullMQ)
+          |
+          v
+Worker Service (Render)
+          |
+          v
+Email Provider (Resend)
 
+### Key Design Decisions
+- **API & Worker separated** for reliability
+- **Redis-backed queue** to handle delays safely
+- **Database as source of truth** to avoid race conditions
+- **AI runs server-side** to avoid blocking UI
 
-Step 1 — Add “Add Lead” UI 
-Unlocks real product flow
-Makes demo self-contained
-No dependencies
+---
 
-Step 2 — Verify Resend domain + sender
-Makes emails feel real
-Improves demo credibility
+## Tech Stack
 
-Step 3 — Switch AI mock → OpenAI
-Easy once credits exist
+- **Frontend:** Next.js (Vercel)
+- **API:** Fastify + TypeScript (Render)
+- **Worker:** BullMQ + Redis (Render)
+- **Database:** PostgreSQL
+- **AI:** OpenAI
+- **Email:** Resend
 
-Step 4 — Deploy
+---
 
-Step 5 — Loom demo
+## Email Workflow
 
-# FINAL TESTS
-# STEP 1 — Start all services
+1. User clicks **Send Email**
+2. API:
+   - Generates AI email (if not already generated)
+   - Saves drafts
+   - Enqueues initial email job
+3. Worker:
+   - Sends initial email
+   - Schedules follow-up job
+4. If user clicks **Simulate Reply**:
+   - Lead is marked replied
+   - Follow-up job is skipped safely
 
-## Terminal 1 (API)
+---
 
-cd api
-npm run dev
+## Testing Mode
 
+For demo purposes:
+- Follow-up delay is set to **10 seconds**
+- Reply can be simulated via UI
 
-## Terminal 2 (Worker)
+---
 
-cd api
-npx ts-node-dev src/workers/email.worker.ts
+## Demo Video
 
+See the Loom walkthrough (≤ 5 minutes) explaining:
+- Product flow
+- Architecture decisions
+- Reliability guarantees
 
-## Terminal 3 (UI)
+---
 
-cd ui
-npm run dev
+## Notes
 
-# STEP 2 — Add a fresh lead (UI)
+This project focuses on a polished core experience over feature bloat.  
+UI polish items are intentionally kept minimal to prioritize correctness and reliability.
 
-In the browser (http://localhost:3000):
+---
 
-Add a brand-new lead (important: new email).
+## Author
 
-Expected UI state:
-
-Status: NEW
-
-# STEP 3 — Click “Send Email” (UI)
-
-Click Send Email for that lead.
-
-Expected backend behavior:
-
-Initial draft auto-generated
-
-Initial email job enqueued
-
-Follow-up job scheduled (10s delay)
-
-Expected logs:
-
-API: /emails/send/:leadId → 200
-
-Worker: INITIAL email processed
-
-Expected UI state:
-
-Status: EMAIL SENT
-
-# STEP 4 — Immediately click “Simulate Reply” (UI)
-
-Before 10 seconds pass, click Simulate Reply.
-
-Expected backend behavior:
-
-repliedAt is set on Lead
-
-Verify quickly:
-
-npx prisma studio
-
-
-Check:
-
-Lead.repliedAt ≠ null
-
-Expected UI state:
-
-Status: REPLIED
-
-# STEP 5 — Wait 15 seconds
-
-Let the delayed job fire.
-
-Expected Results (PASS criteria)
-Worker behavior
-
-In worker logs, should see NO email send for FOLLOW_UP.
-
-If added a log (optional), it would look like:
-
-Skipped follow-up: lead already replied
-
-Email behavior
-
-You receive ONLY ONE email (the initial one)
-
-No follow-up email arrives
-
-Database behavior
-
-In Prisma Studio:
-
-EmailSend table contains:
-
-1 row with type = INITIAL
-
-NO row with type = FOLLOW_UP
-
-## LOCAL DB SET UP
-
-psql -U postgres
-CREATE USER prosp_user WITH PASSWORD 'prosp_password';
-ALTER DATABASE prosp OWNER TO prosp_user;
-GRANT ALL PRIVILEGES ON DATABASE prosp TO prosp_user;
-### .env
-DATABASE_URL=postgresql://prosp_user:prosp_password@localhost:5432/prosp
-### then run migration again
-cd api
-npx prisma migrate dev --name init
-
-
-updated the worker and start commands in package.json to:
-    // "worker": "npm run build && prisma migrate deploy && ts-node src/workers/email.worker.ts"
-    // "start": "npm run build && prisma migrate deploy && node dist/server.js",
+Built by **Pratham Dandale**  
+For the *Software Engineer – Product, Growth & Acquisitions* technical assessment.
