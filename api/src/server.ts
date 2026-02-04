@@ -6,7 +6,10 @@ import leadRoutes from './routes/leads'
 import emailRoutes from './routes/emails'
 
 
-const app = Fastify({ logger: true })
+const app = Fastify({ 
+  logger: true ,
+  trustProxy: true, //REQUIRED on Railway
+})
 
 app.register(cors, {
   origin: [
