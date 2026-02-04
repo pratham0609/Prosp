@@ -19,7 +19,9 @@ export default function LeadRow({ lead, onAction }: any) {
       </div>
 
       <div style={{ marginTop: 8 }}>
-        <button onClick={async () => {
+        <button 
+        disabled={lead.repliedAt}
+        onClick={async () => {
           await sendEmail(lead.id)
           onAction()
         }}>

@@ -16,18 +16,33 @@ export async function generateEmail(lead: any) {
         {
           role: 'user',
           content: `
-Write a personalized cold outreach email.
+Write a short, personalized cold outreach email.
 
+Context:
+You are writing on behalf of Prosp, an AI-powered outbound tool.
+The goal is to start a genuine conversation, not to sell aggressively.
+
+Lead details:
 Name: ${lead.firstName} ${lead.lastName}
-Company: ${lead.company || 'their company'}
-Role: ${lead.role || 'their role'}
+Company: ${lead.company}
+Role: ${lead.role}
 
-Rules:
-- Under 120 words
-- Friendly, professional tone
-- No emojis
-- Soft call to action
-- Return ONLY valid JSON with keys "subject" and "body".
+Guidelines:
+- Under 100 words
+- Friendly, natural, and human
+- Mention the lead’s role or company naturally
+- Do NOT pitch features
+- Do NOT claim expertise in their domain
+- Do NOT use placeholders or brackets in responses
+- End with a soft question that invites a reply
+- Sign off as "Prosp"
+
+Return ONLY valid JSON with:
+{
+  "subject": "...",
+  "body": "..."
+}
+
 `
         }
       ],
