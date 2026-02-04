@@ -11,7 +11,8 @@ export default function Page() {
   const load = async () => {
     const data = await fetchLeads()
     console.log('LEADS:', data)
-    setLeads(data)
+    setLeads(Array.isArray(data) ? data : [])
+    // setLeads(data)
   }
 
   useEffect(() => {
@@ -20,10 +21,10 @@ export default function Page() {
 
   return (
     <main style={{ padding: 24 }}>
-      <h1>Prosp – Outreach Dashboard</h1>
+      <h1>Prosp – AI Outreach Demo</h1>
 
       <p>
-        Send AI-personalized outreach and automated follow-ups.
+        AI-personalized emails with automated follow-ups
       </p>
 
       <AddLeadForm onCreated={load} />

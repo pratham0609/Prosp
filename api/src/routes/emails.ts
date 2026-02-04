@@ -3,22 +3,6 @@ import { prisma } from '../db'
 import { emailQueue } from '../queue/email.queue'
 import { generateEmail } from '../services/ai.service'
 
-function buildFollowUpDraft(lead: any) {
-  return {
-    subject: `Following up, ${lead.firstName}`,
-    body: `
-Hi ${lead.firstName},
-
-Just wanted to follow up on my previous message.
-Let me know if this is worth a quick chat.
-
-Best,
-Ruchi
-    `.trim()
-  }
-}
-
-
 export default async function (app: FastifyInstance) {
 
 app.post('/send/:leadId', async (req) => {
@@ -58,7 +42,7 @@ Just wanted to follow up on my previous message.
 Let me know if this makes sense to discuss.
 
 Best,
-Ruchi
+Prosp
       `.trim()
     }
   })

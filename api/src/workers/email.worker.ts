@@ -1,12 +1,14 @@
-import { Worker, Queue } from 'bullmq'
+import { Worker } from 'bullmq'
 import { redisConnection } from '../queue/redis'
-const emailQueue = new Queue('email-send', { connection: redisConnection })
+import { EMAIL_QUEUE_NAME, emailQueue } from '../queue/email.queue'
 import { prisma } from '../db'
 import { sendEmail } from '../services/email.service'
 
 new Worker(
-  'email-send',
+  EMAIL_QUEUE_NAME,
   async (job) => {
+    console.log('[worker] received job', job.name, job.data)
+
     const { leadId, draftId, type, followUpDraftId } = job.data
 
     const lead = await prisma.lead.findUnique({ where: { id: leadId } })
@@ -16,8 +18,8 @@ new Worker(
       throw new Error('Lead or draft not found')
     }
 
-    //check if lead has replied for follow-up emails
     if (type === 'FOLLOW_UP' && lead.repliedAt) {
+      console.log('[worker] skipping follow-up, already replied')
       return { skipped: true }
     }
 
@@ -33,7 +35,6 @@ new Worker(
       }
     })
 
-    // schedule follow-up with CORRECT draft
     if (type === 'INITIAL' && followUpDraftId) {
       await emailQueue.add(
         'send-follow-up',
@@ -42,23 +43,11 @@ new Worker(
           draftId: followUpDraftId,
           type: 'FOLLOW_UP'
         },
-        {
-          // delay: 2 * 24 * 60 * 60 * 1000 // 2 days
-          delay: 10_000  // 10 seconds for testing
-        }
+        { delay: 10_000 }
       )
     }
-
-    if (type === 'FOLLOW_UP' && lead.repliedAt) {
-      console.log(
-        `[worker] Skipping follow-up for lead ${lead.id} (already replied)`
-      )
-      return { skipped: true }
-    }
-
 
     return { success: true }
   },
   { connection: redisConnection }
 )
-
