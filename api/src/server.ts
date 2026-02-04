@@ -43,3 +43,18 @@ const start = async () => {
 }
 
 start()
+process.on('exit', (code) => {
+  console.log('❌ Process exiting with code:', code)
+})
+
+process.on('uncaughtException', (err) => {
+  console.error('❌ Uncaught Exception:', err)
+})
+
+process.on('unhandledRejection', (reason) => {
+  console.error('❌ Unhandled Rejection:', reason)
+})
+
+setInterval(() => {
+  console.log('✅ process alive', new Date().toISOString())
+}, 5000)
