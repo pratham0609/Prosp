@@ -7,8 +7,6 @@ npx prisma generate
 npx prisma migrate dev
 npm run dev
 curl http://localhost:3001/leads
-
-
 curl -X POST http://localhost:3001/emails/generate/8ddef7bc-7033-4c89-aebf-10f89f52fd48
 
 curl -X POST http://localhost:3001/emails/send/8ddef7bc-7033-4c89-aebf-10f89f52fd48
@@ -198,3 +196,4 @@ EmailSend table contains:
 1 row with type = INITIAL
 
 NO row with type = FOLLOW_UP
+
