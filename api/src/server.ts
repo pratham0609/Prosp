@@ -1,7 +1,6 @@
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
 import dotenv from 'dotenv'
-import { prisma } from './db'
 import leadRoutes from './routes/leads'
 import emailRoutes from './routes/emails'
 
@@ -9,7 +8,14 @@ dotenv.config()
 
 const app = Fastify({ logger: true })
 
-app.register(cors)
+app.register(cors, {
+  origin: [
+    'http://localhost:3000',
+    'https://prosp-prod.vercel.app'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+})
+
 app.register(leadRoutes, { prefix: '/leads' })
 app.register(emailRoutes, { prefix: '/emails' })
 
@@ -23,6 +29,5 @@ const start = async () => {
     process.exit(1)
   }
 }
-
 
 start()
