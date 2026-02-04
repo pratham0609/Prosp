@@ -1,9 +1,6 @@
-// import { PrismaClient } from '@prisma/client'
-// export const prisma = new PrismaClient()
-
 import { PrismaClient } from '@prisma/client'
 
-let prisma: PrismaClient
+let prisma: PrismaClient | null = null
 
 export function getPrisma() {
   if (!prisma) {
@@ -13,5 +10,7 @@ export function getPrisma() {
 }
 
 process.on('SIGTERM', async () => {
-  await prisma.$disconnect()
+  if (prisma) {
+    await prisma.$disconnect()
+  }
 })
