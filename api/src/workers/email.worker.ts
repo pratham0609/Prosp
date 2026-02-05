@@ -45,7 +45,7 @@ new Worker(
           draftId: followUpDraftId,
           type: 'FOLLOW_UP'
         },
-        { delay: 10_000 }
+        { delay: 30_000 }
       )
     }
 
