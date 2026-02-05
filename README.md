@@ -59,28 +59,7 @@ This app solves that by:
 
 ## Architecture Overview
 
-Frontend (Next.js / Vercel)
-
-          |
-          v
-          
-API (Fastify / Render)
-
-          |
-    enqueue jobs
-          v
-          
-Redis Queue (BullMQ)
-
-          |
-          v
-          
-Worker Service (Render)
-
-          |
-          v
-          
-Email Provider (Resend)
+<img width="1536" height="1024" alt="Architecture" src="https://github.com/user-attachments/assets/b05e55a4-7371-42fc-a119-aba3129b5425" />
 
 ### Key Design Decisions
 - **API & Worker separated** for reliability
