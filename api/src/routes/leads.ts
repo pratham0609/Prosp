@@ -10,7 +10,8 @@ export default async function leadRoutes(app: FastifyInstance) {
   app.get('/', async (req, reply) => {
     try {
       const leads = await prisma.lead.findMany({
-        orderBy: { createdAt: 'desc' }
+        orderBy: { createdAt: 'desc' },
+        include: { sends: true }
       })
       reply.send(leads)
     } catch (err) {
