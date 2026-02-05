@@ -57,21 +57,29 @@ This app solves that by:
 
 ---
 
-## 🏗 Architecture Overview
+## Architecture Overview
 
 Frontend (Next.js / Vercel)
+
           |
           v
+          
 API (Fastify / Render)
+
           |
     enqueue jobs
           v
+          
 Redis Queue (BullMQ)
+
           |
           v
+          
 Worker Service (Render)
+
           |
           v
+          
 Email Provider (Resend)
 
 ### Key Design Decisions
