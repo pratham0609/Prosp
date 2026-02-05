@@ -40,4 +40,23 @@ export default async function leadRoutes(app: FastifyInstance) {
     }
   })
 
+  app.post('/:id/reply', async (req, reply) => {
+  try {
+    const { id } = req.params as { id: string }
+
+    await prisma.lead.update({
+      where: { id },
+      data: {
+        repliedAt: new Date()
+      }
+    })
+
+    reply.send({ ok: true })
+  } catch (err) {
+    req.log.error(err)
+    reply.status(500).send({ error: 'Failed to mark reply' })
+  }
+})
+
+
 }
