@@ -65,7 +65,7 @@ Return ONLY valid JSON with:
   } catch (err) {
     console.warn('[AI] Falling back to default template:', err)
 
-    // 🔒 Demo-safe fallback
+    // Safe fallback
     return {
       subject: `Quick intro, ${lead.firstName}`,
       body: `Hi ${lead.firstName},

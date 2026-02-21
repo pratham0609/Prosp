@@ -11,6 +11,6 @@ export async function sendEmail(
     from: process.env.EMAIL_FROM as string,
     to,
     subject,
-    text: body   // 👈 use text instead of html
+    text: body   //  use text instead of html
   })
 }

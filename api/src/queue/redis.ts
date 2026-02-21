@@ -10,5 +10,7 @@
 import { ConnectionOptions } from 'bullmq'
 
 export const redisConnection: ConnectionOptions = {
-  url: process.env.REDIS_URL
+  url: process.env.REDIS_URL,
+  // This is required for BullMQ to handle connection drops without crashing the job
+  maxRetriesPerRequest: null
 }
