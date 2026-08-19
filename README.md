@@ -1,6 +1,6 @@
 # Prosp – AI Outreach Demo (Mini-SaaS)
 
-A standalone mini-SaaS that helps Sales Development Reps (SDRs) send AI-personalized outreach emails and automatically handle follow-ups — without manual tracking.
+A standalone mini-SaaS that helps Sales Development Reps (SDRs) send AI-personalized outreach emails and automatically handle follow-ups without manual tracking.
 
 This project demonstrates product thinking, reliable backend workflows, and real AI + email integration.
 
@@ -125,8 +125,4 @@ This project focuses on a polished core experience over feature bloat.
 UI polish items are intentionally kept minimal to prioritize correctness and reliability.
 
 ---
-
-## Author
-
-Built by **Pratham Dandale**  
-For the *Software Engineer – Product, Growth & Acquisitions* technical assessment.
+**Pratham Dandale**  
